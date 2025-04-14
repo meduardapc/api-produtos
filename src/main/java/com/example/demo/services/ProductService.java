@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,18 @@ public class ProductService {
         Product entity = repository.findById(id).get();
         ProductDTO dto = new ProductDTO(entity);
         return dto;
+    }
+
+    @Transactional
+    public List<ProductDTO> getAll() {
+        List<Product> productList = repository.findAll();
+        List<ProductDTO> productDTOList = new ArrayList<>();
+
+        productList.forEach(product -> {
+            ProductDTO dto = new ProductDTO(product);
+            productDTOList.add(dto);
+        });
+        return productDTOList;
     }
 
     public void create(ProductDTO productDTO) {

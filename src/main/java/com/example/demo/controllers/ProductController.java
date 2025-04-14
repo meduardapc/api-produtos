@@ -5,6 +5,8 @@ import com.example.demo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {
@@ -25,5 +27,11 @@ public class ProductController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping
+    public List<ProductDTO> findAll() {
+    List<ProductDTO> products = service.getAll();
+    return products;
     }
 }
