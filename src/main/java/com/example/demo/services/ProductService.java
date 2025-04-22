@@ -2,11 +2,13 @@ package com.example.demo.services;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.entities.Product;
+import com.example.demo.enums.ProductCategoryEnum;
 import com.example.demo.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    private ProductCategoryEnum category;
 
     @Transactional
     public ProductDTO findById(Long id) {
@@ -42,6 +46,9 @@ public class ProductService {
         if(productOptional.isEmpty()){
             Product product = new Product();
             product.setName(productDTO.getName());
+            product.setCategory(productDTO.getCategory());
+            product.setQtdEstoque(productDTO.getQtdEstoque());
+            product.setDataCadastro(LocalDateTime.now());
             repository.save(product);
         }
     }
