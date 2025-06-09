@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.StockDTO;
 import com.example.demo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,10 @@ public class ProductController {
     public List<ProductDTO> findAll() {
     List<ProductDTO> products = service.getAll();
     return products;
+    }
+
+    @PatchMapping
+    public void update(@RequestBody StockDTO stockDTO) {
+        service.update(stockDTO);
     }
 }

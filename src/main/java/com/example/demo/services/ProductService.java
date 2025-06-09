@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.ProductDTO;
+import com.example.demo.dto.StockDTO;
 import com.example.demo.entities.Product;
+import com.example.demo.enums.OperationTypeEnum;
 import com.example.demo.enums.ProductCategoryEnum;
 import com.example.demo.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,22 @@ public class ProductService {
 
         if(productOptional.isPresent()) {
             repository.delete(productOptional.get());
+        }
+    }
+
+    public void update(StockDTO stockDTO) {
+        Optional<Product> productOptional = repository.findById(stockDTO.getId());
+
+        if(productOptional.isPresent()) {
+            Product product = productOptional.get();
+            int qtd = 0;
+            if(stockDTO.getTipo().equals(OperationTypeEnum.COMPRA)) {
+                qtd = product.getQtdEstoque() + stockDTO.getQtd();
+            } else {
+                qtd = product.getQtdEstoque() - stockDTO.getQtd();
+            }
+            product.setQtdEstoque(qtd);
+            repository.save(product);
         }
     }
 }
